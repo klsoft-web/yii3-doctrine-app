@@ -43,7 +43,7 @@ Open your browser to the URL [http://localhost:8383](http://localhost:8383)
     ```
  4. Create the database schema:
     ```bash 
-    docker compose run app ./yii doctrine:orm:schema-tool:create 
+    docker compose run --rm app ./yii doctrine:orm:schema-tool:create 
     ```
 
 Open your browser to the URL [http://localhost:8383](http://localhost:8383)
