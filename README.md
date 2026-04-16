@@ -17,25 +17,35 @@ See also:
 ## How to use
 
  1. Create a new project from a template using the [Composer](https://getcomposer.org/) package manager:
-
 ```bash
 composer create-project klsoft/yii3-doctrine-app your_project
 cd your_project
 ```
-
 2. Configure the Doctrine connection in the `config/common/params.php`.
-
-3. Run the Doctrine console command:
-
+3. Create the database schema:
 ```bash
 ./yii doctrine:orm:schema-tool:create
 ```
-
-4. To run the app:
-
+4. To run the application:
 ```bash
 ./yii serve --port=8383
 ```
+
+Open your browser to the URL [http://localhost:8383](http://localhost:8383)
+
+## How to use with Docker
+
+ 1. Clone the repository.
+ 2. Uncomment the line `'host' => 'mysql'` in the `config/common/params.php`
+ 3. Start the application: 
+    ```bash 
+    docker compose up -d 
+    ```
+ 4. Create the database schema:
+    ```bash 
+    docker compose run app ./yii doctrine:orm:schema-tool:create 
+    ```
+
 Open your browser to the URL [http://localhost:8383](http://localhost:8383)
 
 ## The following the Doctrine console commands are currently available:
@@ -52,4 +62,3 @@ Open your browser to the URL [http://localhost:8383](http://localhost:8383)
 - doctrine:orm:clear-cache:query
 - doctrine:orm:clear-cache:result
 - doctrine:dbal:run-sql
-

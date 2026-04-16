@@ -47,6 +47,7 @@ return [
         'isDevMode' => false,
         'connection' => [
             'driver' => 'pdo_mysql',
+            //'host' => 'mysql',
             'user' => 'mysite',
             'password' => 'secret',
             'dbname' => 'mysite'
