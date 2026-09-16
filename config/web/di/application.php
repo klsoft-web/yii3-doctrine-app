@@ -5,7 +5,7 @@ declare(strict_types=1);
 use App\Web\Auth\AuthenticationFailureWithRedirectToLoginUrl;
 use App\Web\NotFound\NotFoundHandler;
 use App\Web\Auth\CookieLogin;
-use Yiisoft\Auth\AuthenticationMethodInterface;
+use Yiisoft\Auth\AuthenticatorInterface;
 use Yiisoft\Auth\Middleware\Authentication;
 use Yiisoft\Csrf\CsrfTokenMiddleware;
 use Yiisoft\Definitions\DynamicReference;
@@ -55,7 +55,7 @@ return [
         ],
     ],
 
-    AuthenticationMethodInterface::class => ApiAuth::class,
+    AuthenticatorInterface::class => ApiAuth::class,
 
     Authentication::class => [
         '__construct()' => [
