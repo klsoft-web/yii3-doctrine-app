@@ -1,0 +1,78 @@
+<?php
+
+namespace App\Data\User;
+
+use App\Data\Entities\User;
+use Doctrine\ORM\EntityManagerInterface;
+
+final readonly class UserRepository implements UserRepositoryInterface
+{
+    public function __construct(private EntityManagerInterface $entityManager)
+    {
+    }
+
+    public function save(User $user): void
+    {
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+    }
+
+    public function delete(User $user): void
+    {
+        $this->entityManager->remove($user);
+        $this->entityManager->flush();
+    }
+
+
+    public function find(int $id): ?User
+    {
+        return $this->entityManager->find(User::class, $id);
+    }
+
+    public function findByName(string $name): ?User
+    {
+        /** @var User|null $user */
+        $user = $this->entityManager->createQueryBuilder()
+            ->select('u')
+            ->from(User::class, 'u')
+            ->where('u.name = :name')
+            ->setParameter('name', $name)
+            ->getQuery()
+            ->getOneOrNullResult();
+        return $user;
+    }
+
+    public function findByEmail(string $email): ?User
+    {
+        /** @var User|null $user */
+        $user = $this->entityManager->createQueryBuilder()
+            ->select('u')
+            ->from(User::class, 'u')
+            ->orWhere('u.email = :email')
+            ->setParameter('email', $email)
+            ->getQuery()
+            ->getOneOrNullResult();
+        return $user;
+    }
+
+    public function getAll(
+        int    $offset = 0,
+        ?int   $limit = null,
+        string $sort = 'id',
+        string $order = 'ASC'): array
+    {
+        $qb = $this->entityManager->createQueryBuilder()
+            ->select('u')
+            ->from(User::class, 'u')
+            ->setFirstResult($offset);
+        if ($limit !== null) {
+            $qb->setMaxResults($limit);
+        }
+        /** @var array $users */
+        $users =$qb
+            ->orderBy("u.$sort", $order)
+            ->getQuery()
+            ->getResult();
+        return $users;
+    }
+}
